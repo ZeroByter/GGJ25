@@ -314,12 +314,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 1481644650678074517, guid: 6cc1ed834d9696341b1d72a7a9f67b4c, type: 3}
+  powerUpToSpawn: {fileID: 7753255376787894299, guid: b8b5a504ccccbcd4892b3b2f7071bf53, type: 3}
   autoSpawn: 1
   initialSpawnInterval: 3
   fastestSpawnInterval: 0.9
   maxScoreForIntervalAdjustment: 20
   minYScreen: 0.284
   maxYScreen: 0.832
+  minPowerUpInterval: 5
+  maxPowerUpInterval: 20
 --- !u!4 &174407087
 Transform:
   m_ObjectHideFlags: 0
