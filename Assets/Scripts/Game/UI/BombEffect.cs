@@ -1,21 +1,26 @@
 using GGJ25.Game;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GGJ25
-{
-    public class TrashFailureFeedback : MonoBehaviour
+namespace GGJ25 {
+    public class BombEffect : MonoBehaviour
     {
-        [SerializeField] private float fadeSpeed = 50f;
+        public static BombEffect Singleton { get; private set; }
+
+        [SerializeField]
+        private float fadeSpeed = 50f;
         [Range(0f, 1f)]
         [SerializeField]
-        private float flashAlpha = 0.2509804f;
+        private float flashAlpha = 0.22f;
 
         Image feedbackImage;
         private Color originalColor;
 
         void Awake()
         {
+            Singleton = this;
+
             feedbackImage = GetComponent<Image>();
 
             originalColor = feedbackImage.color;
@@ -31,17 +36,7 @@ namespace GGJ25
             SetImageAlpha(Mathf.Lerp(feedbackImage.color.a, 0f, fadeSpeed * Time.unscaledDeltaTime));
         }
 
-        void OnEnable()
-        {
-            GameManager.OnTrashFailureChanged += ShowRedFlash;
-        }
-
-        void OnDisable()
-        {
-            GameManager.OnTrashFailureChanged -= ShowRedFlash;
-        }
-
-        private void ShowRedFlash()
+        public void ShowFlash()
         {
             SetImageAlpha(flashAlpha);
         }

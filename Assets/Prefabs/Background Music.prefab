@@ -176,4 +176,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMusic: {fileID: 7579968049493143544}
   mainMenuMusic: {fileID: 0}
-  volumeLerpSpeed: 10
+  volumeLerpSpeed: 3

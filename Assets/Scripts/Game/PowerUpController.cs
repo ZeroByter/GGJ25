@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using GGJ25.Game.Trash;
 using Unity.VisualScripting;
@@ -23,6 +24,7 @@ namespace GGJ25.Game
             public string name;
             public Sprite sprite;
             public PowerUpTypes type;
+            public float weight;
         }
 
         [SerializeField]
@@ -34,7 +36,8 @@ namespace GGJ25.Game
 
         private void Awake()
         {
-            powerUp = powerUpDetails[UnityEngine.Random.Range(0, powerUpDetails.Length)];
+            powerUp = GetRandomPowerUp();
+            //powerUp = powerUpDetails[4];
 
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = powerUp.sprite;
@@ -43,14 +46,31 @@ namespace GGJ25.Game
             newCollider.isTrigger = true;
         }
 
+        private PowerUpDetails GetRandomPowerUp()
+        {
+            var totalWeight = powerUpDetails.Sum(i => i.weight);
+            var randomValue = UnityEngine.Random.Range(0, totalWeight);
+
+            float sum = 0f;
+            foreach (var powerUp in powerUpDetails)
+            {
+                sum += powerUp.weight;
+                if(randomValue < sum)
+                {
+                    return powerUp;
+                }
+            }
+
+            return powerUpDetails[UnityEngine.Random.Range(0, powerUpDetails.Length)];
+        }
+
         public void ActivatePower(BubbleController bubble)
         {
             var bubbleRigidbody = bubble.GetComponent<Rigidbody2D>();
+            var bubbleCollider = bubble.GetComponent<PolygonCollider2D>();
 
             if (powerUp.type == PowerUpTypes.Multiplier)
             {
-                var bubbleCollider = bubble.GetComponent<PolygonCollider2D>();
-
                 for (int i = 0; i < 5; i++)
                 {
                     var newAngle = i / 5f * (Mathf.PI * 2f);
@@ -65,6 +85,7 @@ namespace GGJ25.Game
                 {
                     Destroy(trash.gameObject);
                 }
+                BombEffect.Singleton.ShowFlash();
             }
             else if (powerUp.type == PowerUpTypes.Life)
             {
@@ -81,7 +102,7 @@ namespace GGJ25.Game
             {
                 var newCollider = bubble.AddComponent<CircleCollider2D>();
                 newCollider.isTrigger = true;
-                newCollider.radius = 7;
+                newCollider.radius = bubbleCollider.bounds.extents.magnitude * 2.5f;
             }
         }
     }

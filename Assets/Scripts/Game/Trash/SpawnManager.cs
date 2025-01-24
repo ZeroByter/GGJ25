@@ -34,6 +34,8 @@ namespace GGJ25.Game.Trash
 
         private void Awake()
         {
+            lastSpawnedTime = -999;
+
             GameManager.OnScoreChanged += HandleScoreChanged;
 
             HandleScoreChanged(0);

@@ -14,9 +14,11 @@ namespace GGJ25.MainMenu
         [SerializeField]
         private float volumeLerpSpeed;
 
+        private int lastSceneIndex;
+
         private void Awake()
         {
-            if(Singleton != null)
+            if (Singleton != null)
             {
                 Destroy(gameObject);
                 return;
@@ -31,7 +33,7 @@ namespace GGJ25.MainMenu
 
         private void Update()
         {
-            if(SceneManager.GetActiveScene().buildIndex == 0)
+            if (SceneManager.GetActiveScene().buildIndex == 0)
             {
                 gameMusic.volume = Mathf.Lerp(gameMusic.volume, 0, volumeLerpSpeed * Time.unscaledDeltaTime);
             }
@@ -43,8 +45,13 @@ namespace GGJ25.MainMenu
 
         private void OnLevelWasLoaded(int level)
         {
-            gameMusic.Stop();
-            gameMusic.Play();
+            if (lastSceneIndex != level && level == 1)
+            {
+                gameMusic.Stop();
+                gameMusic.Play();
+            }
+
+            lastSceneIndex = level;
         }
     }
 }

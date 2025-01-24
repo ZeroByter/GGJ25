@@ -29,6 +29,8 @@ namespace GGJ25.Game
         private float bigSize = 10f;
         [SerializeField]
         private float bigSizeSpeed = 3f;
+        [SerializeField]
+        private bool perfectBubbles = true;
 
         private AudioSource bubbleCreationAudioSource;
         private LineRenderer creationLineRenderer;
@@ -113,12 +115,12 @@ namespace GGJ25.Game
             return Mathf.Abs(area) * 0.5f;
         }
 
-        private Vector3 GetPolygonMinMax()
+        private Vector3 GetPolygonMinMax(List<Vector3> points)
         {
             var min = new Vector3(float.MaxValue, float.MaxValue);
             var max = new Vector3(float.MinValue, float.MinValue);
 
-            foreach(var point in bubblePositions)
+            foreach (var point in points)
             {
                 if (point.x < min.x)
                 {
@@ -143,7 +145,7 @@ namespace GGJ25.Game
 
         private float GetCombinedSize()
         {
-            return (GetPolygonArea() + GetPolygonMinMax().magnitude) / 2;
+            return (GetPolygonArea() + GetPolygonMinMax(bubblePositions).magnitude) / 2;
         }
 
         private Vector2 GetScreenToWorldPosition()
@@ -195,6 +197,21 @@ namespace GGJ25.Game
             return newMesh;
         }
 
+        private List<Vector3> GetPerfectedBubblePoints(List<Vector3> points)
+        {
+            var size = GetPolygonMinMax(points);
+            var roundedPoints = new List<Vector3>();
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                var radians = (float)i / points.Count * (Mathf.PI * 2f);
+
+                roundedPoints.Add(new Vector3(Mathf.Sin(radians) * size.x / 2f, Mathf.Cos(radians) * size.y / 2f));
+            }
+
+            return roundedPoints;
+        }
+
         private void OnMouseUp()
         {
             if (isDrawing)
@@ -208,6 +225,11 @@ namespace GGJ25.Game
                     foreach (var point in bubblePositions)
                     {
                         localBubblePositions.Add(newBubble.transform.InverseTransformPoint(point));
+                    }
+
+                    if (perfectBubbles)
+                    {
+                        localBubblePositions = GetPerfectedBubblePoints(localBubblePositions);
                     }
 
                     var newLineRenderer = newBubble.GetComponent<LineRenderer>();
@@ -272,11 +294,19 @@ namespace GGJ25.Game
                         minMaxSize.magnitude < maxCreationSize &&
                         minMaxSize.y > minCreationSize;*/
 
-                    var minMaxSize = GetPolygonMinMax();
+                    var minMaxSize = GetPolygonMinMax(bubblePositions);
 
-                    isCreationValid = minMaxSize.magnitude > minCreationSize &&
-                        minMaxSize.magnitude < maxCreationSize &&
-                        minMaxSize.y > minCreationSize;
+                    if (perfectBubbles)
+                    {
+                        isCreationValid = minMaxSize.magnitude < maxCreationSize &&
+                            minMaxSize.y > minCreationSize;
+                    }
+                    else
+                    {
+                        isCreationValid = minMaxSize.magnitude > minCreationSize &&
+                            minMaxSize.magnitude < maxCreationSize &&
+                            minMaxSize.y > minCreationSize;
+                    }
 
                     UpdateCreationLineRendererColor();
                 }
