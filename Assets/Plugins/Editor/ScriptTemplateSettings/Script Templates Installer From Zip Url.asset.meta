@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 64ff228337190a3498a23ce2498229b3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 116074
+  packageName: Script Template Settings
+  packageVersion: 1.12.0
+  assetPath: Assets/Plugins/Editor/ScriptTemplateSettings/Script Templates Installer
+    From Zip Url.asset
+  uploadId: 642326

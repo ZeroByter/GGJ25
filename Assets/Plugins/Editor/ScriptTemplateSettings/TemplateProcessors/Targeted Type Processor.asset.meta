@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3b04e8f6f9518c640833a81343641df4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 116074
+  packageName: Script Template Settings
+  packageVersion: 1.12.0
+  assetPath: Assets/Plugins/Editor/ScriptTemplateSettings/TemplateProcessors/Targeted
+    Type Processor.asset
+  uploadId: 642326

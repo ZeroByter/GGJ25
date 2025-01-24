@@ -17,6 +17,10 @@ namespace GGJ25.Game
         private float screenHeightRatio = 0.1f;
         [SerializeField]
         private AudioClip[] onBubbleCreatedAudio;
+        [SerializeField]
+        private float minCreationSize = 1f;
+        [SerializeField]
+        private float maxCreationSize = 6f;
 
         private AudioSource bubbleCreationAudioSource;
         private LineRenderer creationLineRenderer;
@@ -76,9 +80,41 @@ namespace GGJ25.Game
             return new Vector3(totalX / bubblePositions.Count, totalY / bubblePositions.Count);
         }
 
+        private float GetPolygonArea()
+        {
+            var points = bubblePositions;
+
+            if (points == null || points.Count < 3)
+            {
+                return 0f;
+            }
+
+            float area = 0f;
+            int n = points.Count;
+
+            for (int i = 0; i < n; i++)
+            {
+                Vector2 current = points[i];
+                Vector2 next = points[(i + 1) % n]; // Wrap around to the first point
+
+                area += (current.x * next.y) - (next.x * current.y);
+            }
+
+            return Mathf.Abs(area) * 0.5f;
+        }
+
         private Vector2 GetScreenToWorldPosition()
         {
             return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        private void UpdateCreationLineRendererColor()
+        {
+            var creationSize = GetPolygonArea();
+            var isCorrectSize = creationSize > minCreationSize && creationSize < maxCreationSize;
+
+            creationLineRenderer.startColor = isCorrectSize ? Color.white : Color.red;
+            creationLineRenderer.endColor = isCorrectSize ? Color.white : Color.red;
         }
 
         private Mesh GenerateMesh(Vector3[] localBubblePositions)
@@ -143,10 +179,6 @@ namespace GGJ25.Game
 
                 var newPolygonCollider = newBubble.GetComponent<PolygonCollider2D>();
 
-                var newParticleSystem = newBubble.GetComponent<ParticleSystem>();
-                var newParticleSystemShape = newParticleSystem.shape;
-                newParticleSystemShape.mesh = newMesh;
-
                 var vector2BubblePositions = new Vector2[localBubblePositions.Count];
                 for (int i = 0; i < localBubblePositions.Count; i++)
                 {
@@ -181,6 +213,8 @@ namespace GGJ25.Game
 
                     creationLineRenderer.positionCount = bubblePositions.Count;
                     creationLineRenderer.SetPositions(bubblePositions.ToArray());
+
+                    UpdateCreationLineRendererColor();
                 }
             }
         }

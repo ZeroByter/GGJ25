@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1e9d355e6b9d5c546ab2946924354101
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 116074
+  packageName: Script Template Settings
+  packageVersion: 1.12.0
+  assetPath: Assets/Plugins/Editor/ScriptTemplateSettings/Documentation/ScriptTemplateSettings.pdf
+  uploadId: 642326
