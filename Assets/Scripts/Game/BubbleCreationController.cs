@@ -12,9 +12,13 @@ namespace GGJ25.Game
         private float minCreationDistance = 0.5f;
         [SerializeField]
         private GameObject bubblePrefab;
+        [Range(0f, 1f)]
         [SerializeField]
         private float screenHeightRatio = 0.1f;
+        [SerializeField]
+        private AudioClip[] onBubbleCreatedAudio;
 
+        private AudioSource bubbleCreationAudioSource;
         private LineRenderer creationLineRenderer;
 
         private Vector3 lastMousePosition;
@@ -25,6 +29,7 @@ namespace GGJ25.Game
         private void Awake()
         {
             creationLineRenderer = GetComponent<LineRenderer>();
+            bubbleCreationAudioSource = GetComponent<AudioSource>();
 
             ResetLastMousePosition();
         }
@@ -76,20 +81,20 @@ namespace GGJ25.Game
             return Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        private Mesh GenerateMesh()
+        private Mesh GenerateMesh(Vector3[] localBubblePositions)
         {
             var newMesh = new Mesh();
 
             List<Vector3> vertices = new List<Vector3>();
 
-            var center = GetCenterPosition();
+            var center = Vector3.zero;
 
             vertices.Add(center);
-            vertices.AddRange(bubblePositions);
+            vertices.AddRange(localBubblePositions);
 
             List<int> triangles = new List<int>();
 
-            int vertexCount = bubblePositions.Count;
+            int vertexCount = localBubblePositions.Length;
             for (int i = 1; i <= vertexCount; i++)
             {
                 int nextIndex = (i % vertexCount) + 1;
@@ -103,7 +108,7 @@ namespace GGJ25.Game
 
             float maxDistance = 0f;
 
-            foreach (var point in bubblePositions)
+            foreach (var point in localBubblePositions)
             {
                 float distance = Vector2.Distance(center, point);
                 maxDistance = Mathf.Max(maxDistance, distance);
@@ -116,17 +121,46 @@ namespace GGJ25.Game
 
         private void OnMouseUp()
         {
-            var newBubble = Instantiate(bubblePrefab);
+            if (isDrawing)
+            {
+                var newBubble = Instantiate(bubblePrefab, GetCenterPosition(), Quaternion.identity);
 
-            var newLineRenderer = newBubble.GetComponent<LineRenderer>();
-            newLineRenderer.positionCount = bubblePositions.Count;
-            newLineRenderer.SetPositions(bubblePositions.ToArray());
+                var localBubblePositions = new List<Vector3>();
 
-            var newMeshFilter = newBubble.GetComponent<MeshFilter>();
-            newMeshFilter.sharedMesh = GenerateMesh();
+                foreach(var point in bubblePositions)
+                {
+                    localBubblePositions.Add(newBubble.transform.InverseTransformPoint(point));
+                }
 
-            ResetBubblePositions();
-            isDrawing = false;
+                var newLineRenderer = newBubble.GetComponent<LineRenderer>();
+                newLineRenderer.positionCount = localBubblePositions.Count;
+                newLineRenderer.SetPositions(localBubblePositions.ToArray());
+
+                var newMesh = GenerateMesh(localBubblePositions.ToArray());
+
+                var newMeshFilter = newBubble.GetComponent<MeshFilter>();
+                newMeshFilter.sharedMesh = newMesh;
+
+                var newPolygonCollider = newBubble.GetComponent<PolygonCollider2D>();
+
+                var newParticleSystem = newBubble.GetComponent<ParticleSystem>();
+                var newParticleSystemShape = newParticleSystem.shape;
+                newParticleSystemShape.mesh = newMesh;
+
+                var vector2BubblePositions = new Vector2[localBubblePositions.Count];
+                for (int i = 0; i < localBubblePositions.Count; i++)
+                {
+                    vector2BubblePositions[i] = localBubblePositions[i];
+                }
+
+                newPolygonCollider.points = vector2BubblePositions;
+
+                bubbleCreationAudioSource.clip = onBubbleCreatedAudio[Random.Range(0, onBubbleCreatedAudio.Length)];
+                bubbleCreationAudioSource.Play();
+
+                ResetBubblePositions();
+                isDrawing = false;
+            }
         }
 
         private void OnMouseDown()
