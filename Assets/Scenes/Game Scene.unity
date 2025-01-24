@@ -314,17 +314,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 1481644650678074517, guid: 6cc1ed834d9696341b1d72a7a9f67b4c, type: 3}
-  intervalPeriods:
-  - name: Chill time
-    duration: 5
-    interval: 4
-  - name: Less chill time
-    duration: 4
-    interval: 2.5
-  - name: Hard time
-    duration: 3
-    interval: 1.5
-  autoSpawn: 1
+  initialSpawnInterval: 3
+  fastestSpawnInterval: 0.9
+  maxScoreForIntervalAdjustment: 20
   minYScreen: 0.284
   maxYScreen: 0.832
 --- !u!4 &174407087
@@ -2131,7 +2123,7 @@ GameObject:
   - component: {fileID: 1741436383}
   - component: {fileID: 1741436384}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Dotted Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2146,7 +2138,7 @@ Transform:
   m_GameObject: {fileID: 1741436382}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2196,13 +2188,13 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.46666667}
+  m_Sprite: {fileID: 21300000, guid: be61df42d19bc824e909a3532fc8e3e8, type: 3}
+  m_Color: {r: 0.4509804, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
+  m_DrawMode: 2
+  m_Size: {x: 1, y: 0.022227064}
+  m_AdaptiveModeThreshold: 1
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
@@ -2847,14 +2839,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889894743}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.0006108209, w: 0.9999998}
-  m_LocalPosition: {x: 0.48996094, y: -0.4707768, z: -0.007274413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1741436383}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.07}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &1889894747
 LineRenderer:
   serializedVersion: 2
