@@ -139,11 +139,11 @@ namespace GGJ25.Game.Trash
             var newPowerUp = Instantiate(powerUpToSpawn, spawnWorldPos, Quaternion.identity);
             if (randomDirection)
             {
-                newPowerUp.GetComponent<PowerUpMovement>().Setup(new Vector2(1, 0));
+                newPowerUp.GetComponent<TrashMovement>().Setup(new Vector2(1, 0));
             }
             else
             {
-                newPowerUp.GetComponent<PowerUpMovement>().Setup(new Vector2(-1, 0));
+                newPowerUp.GetComponent<TrashMovement>().Setup(new Vector2(-1, 0));
             }
         }
     }

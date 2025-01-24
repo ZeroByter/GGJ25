@@ -208,6 +208,9 @@ namespace GGJ25.Game
 
                     var newPolygonCollider = newBubble.GetComponent<PolygonCollider2D>();
 
+                    var newGlareController = newBubble.GetComponentInChildren<BubbleGlareController>();
+                    newGlareController.Setup(localBubblePositions);
+
                     var vector2BubblePositions = new Vector2[localBubblePositions.Count];
                     for (int i = 0; i < localBubblePositions.Count; i++)
                     {
