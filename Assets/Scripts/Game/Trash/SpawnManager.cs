@@ -10,7 +10,9 @@ namespace GGJ25.Game.Trash
         [SerializeField]
         private float initialSpawnInterval = 3f;
         [SerializeField]
-        private float decreaseSpawnIntervalPerScore = 0.25f;
+        private float fastestSpawnInterval = 0.9f;
+        [SerializeField]
+        private int maxScoreForIntervalAdjustment = 20;
 
         [Range(0f, 1f)]
         [SerializeField]
@@ -41,7 +43,7 @@ namespace GGJ25.Game.Trash
 
         private void HandleScoreChanged(int newScore)
         {
-            spawnInterval = initialSpawnInterval - (newScore * decreaseSpawnIntervalPerScore);
+            spawnInterval = Mathf.Lerp(initialSpawnInterval, fastestSpawnInterval, (float)newScore / maxScoreForIntervalAdjustment);
         }
 
         void SpawnObject()
