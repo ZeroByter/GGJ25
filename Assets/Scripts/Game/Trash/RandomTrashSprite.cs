@@ -5,15 +5,15 @@ namespace GGJ25.Game.Trash
     public class RandomTrashSprite : MonoBehaviour
     {
         [SerializeField]
+        private bool colliderTrigger;
+        [SerializeField]
         private Sprite[] sprites;
 
-        private BoxCollider2D boxCollider;
         private SpriteRenderer spriteRenderer;
         private new ParticleSystem particleSystem;
 
         private void Awake()
         {
-            boxCollider = GetComponent<BoxCollider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             particleSystem = GetComponent<ParticleSystem>();
 
@@ -21,10 +21,14 @@ namespace GGJ25.Game.Trash
 
             spriteRenderer.sprite = chosenSprite;
 
-            boxCollider.size = chosenSprite.bounds.size;
+            if (particleSystem)
+            {
+                var particleSystemShape = particleSystem.shape;
+                particleSystemShape.texture = chosenSprite.texture;
+            }
 
-            var particleSystemShape = particleSystem.shape;
-            particleSystemShape.texture = chosenSprite.texture;
+            var newCollider = gameObject.AddComponent<PolygonCollider2D>();
+            newCollider.isTrigger = colliderTrigger;
         }
     }
 }

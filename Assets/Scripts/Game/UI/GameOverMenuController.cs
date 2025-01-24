@@ -1,3 +1,4 @@
+using TMPro;
 using Udar.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,8 @@ namespace GGJ25.Game.UI
     {
         [SerializeField]
         private SceneField mainMenuScene;
+        [SerializeField]
+        private TMP_Text scoreText;
 
         private LerpCanvasGroup lerpCanvasGroup;
 
@@ -16,6 +19,7 @@ namespace GGJ25.Game.UI
             lerpCanvasGroup = GetComponent<LerpCanvasGroup>();
 
             GameManager.OnGameRunningChanged += HandleGameRunningChanged;
+            GameManager.OnScoreChanged += HandleScoreChanged;
         }
 
         private void HandleGameRunningChanged(bool gameRunning)
@@ -24,6 +28,11 @@ namespace GGJ25.Game.UI
             {
                 lerpCanvasGroup.SetAlpha(1f);
             }
+        }
+
+        private void HandleScoreChanged(int newScore)
+        {
+            scoreText.text = $"Your final score: {newScore}";
         }
 
         public void TryAgain()
@@ -39,6 +48,7 @@ namespace GGJ25.Game.UI
         private void OnDestroy()
         {
             GameManager.OnGameRunningChanged -= HandleGameRunningChanged;
+            GameManager.OnScoreChanged -= HandleScoreChanged;
         }
     }
 }
