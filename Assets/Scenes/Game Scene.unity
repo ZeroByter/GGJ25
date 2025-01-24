@@ -2822,7 +2822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minCreationDistance: 0.5
   bubblePrefab: {fileID: 2185108309183272524, guid: 962efe14df687bb43822da4030fafa10, type: 3}
-  screenHeightRatio: 0.175
+  screenHeightRatio: 0.237
   onBubbleCreatedAudio:
   - {fileID: 8300000, guid: 50a2ab6fbd51dfb48980e76eb246c2b0, type: 3}
   - {fileID: 8300000, guid: 6e83f39010b23a345b0ae70b0bc8749d, type: 3}
