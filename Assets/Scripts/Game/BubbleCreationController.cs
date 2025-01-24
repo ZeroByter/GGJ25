@@ -105,6 +105,34 @@ namespace GGJ25.Game
             return Mathf.Abs(area) * 0.5f;
         }
 
+        private Vector3 GetPolygonMinMax()
+        {
+            var min = new Vector3(float.MaxValue, float.MaxValue);
+            var max = new Vector3(float.MinValue, float.MinValue);
+
+            foreach(var point in bubblePositions)
+            {
+                if (point.x < min.x)
+                {
+                    min.x = point.x;
+                }
+                if (point.x > max.x)
+                {
+                    max.x = point.x;
+                }
+                if (point.y < min.y)
+                {
+                    min.y = point.y;
+                }
+                if (point.y > max.y)
+                {
+                    max.y = point.y;
+                }
+            }
+
+            return new Vector3(max.x - min.x, max.y - min.y);
+        }
+
         private Vector2 GetScreenToWorldPosition()
         {
             return Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -217,7 +245,13 @@ namespace GGJ25.Game
                     creationLineRenderer.SetPositions(bubblePositions.ToArray());
 
                     var creationSize = GetPolygonArea();
-                    isCreationValid = creationSize > minCreationSize && creationSize < maxCreationSize;
+                    var minMaxSize = GetPolygonMinMax();
+
+                    isCreationValid = creationSize > minCreationSize &&
+                        creationSize < maxCreationSize &&
+                        minMaxSize.magnitude > minCreationSize &&
+                        minMaxSize.magnitude < maxCreationSize && 
+                        minMaxSize.y > minCreationSize * 2f;
 
                     UpdateCreationLineRendererColor();
                 }

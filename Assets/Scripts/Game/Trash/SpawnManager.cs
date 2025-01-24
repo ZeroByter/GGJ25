@@ -6,6 +6,8 @@ namespace GGJ25.Game.Trash
     {
         [SerializeField]
         GameObject prefabToSpawn;
+        [SerializeField]
+        private bool autoSpawn = true;
 
         [SerializeField]
         private float initialSpawnInterval = 3f;
@@ -34,7 +36,7 @@ namespace GGJ25.Game.Trash
 
         void Update()
         {
-            if (Time.time > lastSpawnedTime + spawnInterval)
+            if (autoSpawn && Time.time > lastSpawnedTime + spawnInterval)
             {
                 lastSpawnedTime = Time.time;
                 SpawnObject();
