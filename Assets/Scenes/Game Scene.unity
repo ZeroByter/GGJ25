@@ -314,7 +314,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 1481644650678074517, guid: 6cc1ed834d9696341b1d72a7a9f67b4c, type: 3}
-  spawnInterval: 2
+  intervalPeriods:
+  - name: Chill time
+    duration: 5
+    interval: 4
+  - name: Less chill time
+    duration: 4
+    interval: 2.5
+  - name: Hard time
+    duration: 3
+    interval: 1.5
   autoSpawn: 1
   minYScreen: 0.284
   maxYScreen: 0.832

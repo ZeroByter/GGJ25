@@ -4,10 +4,14 @@ namespace GGJ25.Game.Trash
 {
     public class SpawnManager : MonoBehaviour
     {
-        [SerializeField] GameObject prefabToSpawn;
-        [SerializeField] float spawnInterval = 1f;
-        private float nextSpawnTime;
-        [SerializeField] bool autoSpawn = true;
+        [SerializeField]
+        GameObject prefabToSpawn;
+
+        [SerializeField]
+        private float initialSpawnInterval = 3f;
+        [SerializeField]
+        private float decreaseSpawnIntervalPerScore = 0.25f;
+
         [Range(0f, 1f)]
         [SerializeField]
         private float minYScreen = 0f;
@@ -15,25 +19,39 @@ namespace GGJ25.Game.Trash
         [SerializeField]
         private float maxYScreen = 1f;
 
+        private float lastSpawnedTime;
+
+        private float spawnInterval;
+
+        private void Awake()
+        {
+            GameManager.OnScoreChanged += HandleScoreChanged;
+
+            HandleScoreChanged(0);
+        }
+
         void Update()
         {
-            if (!autoSpawn) { return; }
-
-            if (Time.time > nextSpawnTime)
+            if (Time.time > lastSpawnedTime + spawnInterval)
             {
-                nextSpawnTime = Time.time + spawnInterval;
+                lastSpawnedTime = Time.time;
                 SpawnObject();
             }
+        }
+
+        private void HandleScoreChanged(int newScore)
+        {
+            spawnInterval = initialSpawnInterval - (newScore * decreaseSpawnIntervalPerScore);
         }
 
         void SpawnObject()
         {
             if (prefabToSpawn == null) { return; }
-            int randomSideOfScreen = Random.Range(0, 2);
+            int randomSideOfScreen = UnityEngine.Random.Range(0, 2);
             Vector2 worldPosition;
             bool randomDirection;
 
-            var randomHeight = Random.Range(minYScreen, maxYScreen);
+            var randomHeight = UnityEngine.Random.Range(minYScreen, maxYScreen);
 
             if (randomSideOfScreen == 0)
             {
@@ -67,5 +85,10 @@ namespace GGJ25.Game.Trash
             Gizmos.DrawWireCube((minWorldPosition + maxWorldPosition) / 2f, new Vector3(maxWorldPosition.x - minWorldPosition.x, maxWorldPosition.y - minWorldPosition.y, 1f));
         }
 #endif
+
+        private void OnDestroy()
+        {
+            GameManager.OnScoreChanged -= HandleScoreChanged;
+        }
     }
 }
