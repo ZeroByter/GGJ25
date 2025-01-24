@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace GGJ25.Game.Trash
@@ -6,6 +7,7 @@ namespace GGJ25.Game.Trash
     {
         [SerializeField]
         GameObject prefabToSpawn;
+        [SerializeField] GameObject powerUpToSpawn;
 
         [SerializeField]
         private float initialSpawnInterval = 3f;
@@ -20,8 +22,12 @@ namespace GGJ25.Game.Trash
         [Range(0f, 1f)]
         [SerializeField]
         private float maxYScreen = 1f;
+        [SerializeField] private float minPowerUpInterval = 5f;
+        [SerializeField] private float maxPowerUpInterval = 20f;
+        private float powerUpInterval;
 
         private float lastSpawnedTime;
+        private float lastPowerUpSpawnedTime;
 
         private float spawnInterval;
 
@@ -30,6 +36,7 @@ namespace GGJ25.Game.Trash
             GameManager.OnScoreChanged += HandleScoreChanged;
 
             HandleScoreChanged(0);
+            PowerUpInterval();
         }
 
         void Update()
@@ -39,11 +46,22 @@ namespace GGJ25.Game.Trash
                 lastSpawnedTime = Time.time;
                 SpawnObject();
             }
+
+            if (Time.time > lastPowerUpSpawnedTime + powerUpInterval)
+            {
+                lastPowerUpSpawnedTime = Time.time;
+                SpawnPowerUp();
+            }
         }
 
         private void HandleScoreChanged(int newScore)
         {
             spawnInterval = Mathf.Lerp(initialSpawnInterval, fastestSpawnInterval, (float)newScore / maxScoreForIntervalAdjustment);
+        }
+
+        private void PowerUpInterval()
+        {
+            powerUpInterval = UnityEngine.Random.Range(minPowerUpInterval, maxPowerUpInterval);
         }
 
         void SpawnObject()
@@ -91,6 +109,39 @@ namespace GGJ25.Game.Trash
         private void OnDestroy()
         {
             GameManager.OnScoreChanged -= HandleScoreChanged;
+        }
+
+
+        void SpawnPowerUp()
+        {
+            if (prefabToSpawn == null) { return; }
+            int randomSideOfScreen = UnityEngine.Random.Range(0, 2);
+            Vector2 worldPosition;
+            bool randomDirection;
+
+            var randomHeight = UnityEngine.Random.Range(minYScreen, maxYScreen);
+
+            if (randomSideOfScreen == 0)
+            {
+                worldPosition = Camera.main.ViewportToWorldPoint(new Vector2(-0.1f, randomHeight));
+                randomDirection = true;
+            }
+            else
+            {
+                worldPosition = Camera.main.ViewportToWorldPoint(new Vector2(1.1f, randomHeight));
+                randomDirection = false;
+            }
+
+            Vector2 spawnWorldPos = new Vector2(worldPosition.x, worldPosition.y);
+            var newPowerUp = Instantiate(powerUpToSpawn, spawnWorldPos, Quaternion.identity);
+            if (randomDirection)
+            {
+                newPowerUp.GetComponent<PowerUpMovement>().Setup(new Vector2(1, 0));
+            }
+            else
+            {
+                newPowerUp.GetComponent<PowerUpMovement>().Setup(new Vector2(-1, 0));
+            }
         }
     }
 }
