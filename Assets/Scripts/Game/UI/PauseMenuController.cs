@@ -1,3 +1,4 @@
+using Udar.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,9 @@ namespace GGJ25.Game.UI
 {
     public class PauseMenuController : MonoBehaviour
     {
+        [SerializeField]
+        private SceneField mainMenuScene;
+
         private LerpCanvasGroup lerpCanvasGroup;
 
         private bool isOpen = false;
@@ -21,7 +25,7 @@ namespace GGJ25.Game.UI
 
         public void MainMenu()
         {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
+            SceneManager.LoadScene(mainMenuScene.BuildIndex);
         }
 
         private void SetIsOpen(bool isOpen)

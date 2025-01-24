@@ -1,3 +1,4 @@
+using Udar.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,9 @@ namespace GGJ25.Game.UI
 {
     public class GameOverMenuController : MonoBehaviour
     {
+        [SerializeField]
+        private SceneField mainMenuScene;
+
         private LerpCanvasGroup lerpCanvasGroup;
 
         private void Awake()
@@ -24,12 +28,12 @@ namespace GGJ25.Game.UI
 
         public void TryAgain()
         {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         public void MainMenu()
         {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
+            SceneManager.LoadScene(mainMenuScene.BuildIndex);
         }
 
         private void OnDestroy()

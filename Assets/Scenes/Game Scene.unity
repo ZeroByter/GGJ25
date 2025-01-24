@@ -1256,6 +1256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2e2b2d672f76946a49deed679635e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScene:
+    _sceneOB: {fileID: 102900000, guid: 711804be10428e04585efc8e51cc9e28, type: 3}
+    _name: Main Menu
+    _path: Assets/Scenes/Main Menu.unity
+    _buildIndex: 0
 --- !u!1 &863117510
 GameObject:
   m_ObjectHideFlags: 0
@@ -3208,6 +3213,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f52a42723aab444803bc6619b2e869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScene:
+    _sceneOB: {fileID: 102900000, guid: 711804be10428e04585efc8e51cc9e28, type: 3}
+    _name: Main Menu
+    _path: Assets/Scenes/Main Menu.unity
+    _buildIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using Udar.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,9 +6,12 @@ namespace GGJ25.MainMenu
 {
     public class MainMenuController : MonoBehaviour
     {
+        [SerializeField]
+        private SceneField gameScene;
+
         public void StartPlaying()
         {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+            SceneManager.LoadScene(gameScene.BuildIndex);
         }
     }
 }
