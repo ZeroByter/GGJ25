@@ -178,8 +178,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8fa392942abde3a489b9a21c62a20d07, type: 2}
+  m_sharedMaterial: {fileID: 6640339742037809794, guid: 8fa392942abde3a489b9a21c62a20d07, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -203,13 +203,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.8
+  m_fontSize: 49.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -314,8 +314,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Bubble Clean Up
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d7f8b2baeb1ff174c96631ef7d2a89af, type: 2}
+  m_sharedMaterial: {fileID: -5032234881742937968, guid: d7f8b2baeb1ff174c96631ef7d2a89af, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -634,9 +634,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameScene:
     _sceneOB: {fileID: 102900000, guid: 20e9da0a28be0ea458f7f394c3efd8d7, type: 3}
-    _name: Game Scene - Rom
-    _path: 
-    _buildIndex: -1
+    _name: Game Scene
+    _path: Assets/Scenes/Game Scene.unity
+    _buildIndex: 1
 --- !u!4 &1743946570
 Transform:
   m_ObjectHideFlags: 0
