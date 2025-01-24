@@ -197,7 +197,7 @@ namespace GGJ25.Game
 
         private void OnMouseDown()
         {
-            isDrawing = true;
+            isDrawing = GameManager.Singleton.isGameRunning;
         }
 
         private void OnMouseDrag()

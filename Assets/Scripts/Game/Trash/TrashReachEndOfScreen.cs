@@ -18,6 +18,7 @@ namespace GGJ25.Game.Trash
                 if (transform.position.x < initialPosition.x * -1f)
                 {
                     Destroy(gameObject);
+                    GameManager.Singleton.RemoveLife();
                 }
             }
             else
@@ -25,6 +26,7 @@ namespace GGJ25.Game.Trash
                 if (transform.position.x > initialPosition.x * -1f)
                 {
                     Destroy(gameObject);
+                    GameManager.Singleton.RemoveLife();
                 }
             }
         }
