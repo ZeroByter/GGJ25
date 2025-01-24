@@ -21,6 +21,14 @@ namespace GGJ25.Game
         private float minCreationSize = 1f;
         [SerializeField]
         private float maxCreationSize = 6f;
+        [SerializeField]
+        private float smallSize = 0.75f;
+        [SerializeField]
+        private float smallSizeSpeed = 8f;
+        [SerializeField]
+        private float bigSize = 10f;
+        [SerializeField]
+        private float bigSizeSpeed = 3f;
 
         private AudioSource bubbleCreationAudioSource;
         private LineRenderer creationLineRenderer;
@@ -133,6 +141,11 @@ namespace GGJ25.Game
             return new Vector3(max.x - min.x, max.y - min.y);
         }
 
+        private float GetCombinedSize()
+        {
+            return (GetPolygonArea() + GetPolygonMinMax().magnitude) / 2;
+        }
+
         private Vector2 GetScreenToWorldPosition()
         {
             return Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -208,6 +221,9 @@ namespace GGJ25.Game
 
                     var newPolygonCollider = newBubble.GetComponent<PolygonCollider2D>();
 
+                    var newBubbleController = newBubble.GetComponent<BubbleController>();
+                    newBubbleController.Setup(Mathf.Lerp(smallSizeSpeed, bigSizeSpeed, Mathf.InverseLerp(smallSize, bigSize, GetCombinedSize())));
+
                     var newGlareController = newBubble.GetComponentInChildren<BubbleGlareController>();
                     newGlareController.Setup(localBubblePositions);
 
@@ -247,14 +263,20 @@ namespace GGJ25.Game
                     creationLineRenderer.positionCount = bubblePositions.Count;
                     creationLineRenderer.SetPositions(bubblePositions.ToArray());
 
-                    var creationSize = GetPolygonArea();
+                    /*var creationSize = GetPolygonArea();
                     var minMaxSize = GetPolygonMinMax();
 
                     isCreationValid = creationSize > minCreationSize &&
                         creationSize < maxCreationSize &&
                         minMaxSize.magnitude > minCreationSize &&
-                        minMaxSize.magnitude < maxCreationSize && 
-                        minMaxSize.y > minCreationSize * 2f;
+                        minMaxSize.magnitude < maxCreationSize &&
+                        minMaxSize.y > minCreationSize;*/
+
+                    var minMaxSize = GetPolygonMinMax();
+
+                    isCreationValid = minMaxSize.magnitude > minCreationSize &&
+                        minMaxSize.magnitude < maxCreationSize &&
+                        minMaxSize.y > minCreationSize;
 
                     UpdateCreationLineRendererColor();
                 }

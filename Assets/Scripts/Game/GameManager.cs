@@ -41,6 +41,13 @@ namespace GGJ25.Game
             OnTrashFailureChanged?.Invoke();
         }
 
+        public void GiveLife()
+        {
+            lives += 1;
+
+            OnLivesChanged?.Invoke(lives);
+        }
+
         public void AddScore()
         {
             score += 1;
