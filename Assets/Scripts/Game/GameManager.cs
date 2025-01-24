@@ -8,6 +8,7 @@ namespace GGJ25.Game
         public static UnityAction<int> OnScoreChanged;
         public static UnityAction<bool> OnGameRunningChanged;
         public static UnityAction<int> OnLivesChanged;
+        public static UnityAction OnTrashFailureChanged;
 
         public static GameManager Singleton { get; private set; }
 
@@ -36,6 +37,8 @@ namespace GGJ25.Game
             }
 
             OnLivesChanged?.Invoke(lives);
+
+            OnTrashFailureChanged?.Invoke();
         }
 
         public void AddScore()
