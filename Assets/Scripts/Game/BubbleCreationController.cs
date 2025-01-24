@@ -28,6 +28,8 @@ namespace GGJ25.Game
         private Vector3 lastMousePosition;
         private bool isDrawing;
 
+        private bool isCreationValid;
+
         private List<Vector3> bubblePositions = new List<Vector3>();
 
         private void Awake()
@@ -110,11 +112,8 @@ namespace GGJ25.Game
 
         private void UpdateCreationLineRendererColor()
         {
-            var creationSize = GetPolygonArea();
-            var isCorrectSize = creationSize > minCreationSize && creationSize < maxCreationSize;
-
-            creationLineRenderer.startColor = isCorrectSize ? Color.white : Color.red;
-            creationLineRenderer.endColor = isCorrectSize ? Color.white : Color.red;
+            creationLineRenderer.startColor = isCreationValid ? Color.white : Color.red;
+            creationLineRenderer.endColor = isCreationValid ? Color.white : Color.red;
         }
 
         private Mesh GenerateMesh(Vector3[] localBubblePositions)
@@ -159,36 +158,39 @@ namespace GGJ25.Game
         {
             if (isDrawing)
             {
-                var newBubble = Instantiate(bubblePrefab, GetCenterPosition(), Quaternion.identity);
-
-                var localBubblePositions = new List<Vector3>();
-
-                foreach(var point in bubblePositions)
+                if (isCreationValid)
                 {
-                    localBubblePositions.Add(newBubble.transform.InverseTransformPoint(point));
+                    var newBubble = Instantiate(bubblePrefab, GetCenterPosition(), Quaternion.identity);
+
+                    var localBubblePositions = new List<Vector3>();
+
+                    foreach (var point in bubblePositions)
+                    {
+                        localBubblePositions.Add(newBubble.transform.InverseTransformPoint(point));
+                    }
+
+                    var newLineRenderer = newBubble.GetComponent<LineRenderer>();
+                    newLineRenderer.positionCount = localBubblePositions.Count;
+                    newLineRenderer.SetPositions(localBubblePositions.ToArray());
+
+                    var newMesh = GenerateMesh(localBubblePositions.ToArray());
+
+                    var newMeshFilter = newBubble.GetComponent<MeshFilter>();
+                    newMeshFilter.sharedMesh = newMesh;
+
+                    var newPolygonCollider = newBubble.GetComponent<PolygonCollider2D>();
+
+                    var vector2BubblePositions = new Vector2[localBubblePositions.Count];
+                    for (int i = 0; i < localBubblePositions.Count; i++)
+                    {
+                        vector2BubblePositions[i] = localBubblePositions[i];
+                    }
+
+                    newPolygonCollider.points = vector2BubblePositions;
+
+                    bubbleCreationAudioSource.clip = onBubbleCreatedAudio[Random.Range(0, onBubbleCreatedAudio.Length)];
+                    bubbleCreationAudioSource.Play();
                 }
-
-                var newLineRenderer = newBubble.GetComponent<LineRenderer>();
-                newLineRenderer.positionCount = localBubblePositions.Count;
-                newLineRenderer.SetPositions(localBubblePositions.ToArray());
-
-                var newMesh = GenerateMesh(localBubblePositions.ToArray());
-
-                var newMeshFilter = newBubble.GetComponent<MeshFilter>();
-                newMeshFilter.sharedMesh = newMesh;
-
-                var newPolygonCollider = newBubble.GetComponent<PolygonCollider2D>();
-
-                var vector2BubblePositions = new Vector2[localBubblePositions.Count];
-                for (int i = 0; i < localBubblePositions.Count; i++)
-                {
-                    vector2BubblePositions[i] = localBubblePositions[i];
-                }
-
-                newPolygonCollider.points = vector2BubblePositions;
-
-                bubbleCreationAudioSource.clip = onBubbleCreatedAudio[Random.Range(0, onBubbleCreatedAudio.Length)];
-                bubbleCreationAudioSource.Play();
 
                 ResetBubblePositions();
                 isDrawing = false;
@@ -213,6 +215,9 @@ namespace GGJ25.Game
 
                     creationLineRenderer.positionCount = bubblePositions.Count;
                     creationLineRenderer.SetPositions(bubblePositions.ToArray());
+
+                    var creationSize = GetPolygonArea();
+                    isCreationValid = creationSize > minCreationSize && creationSize < maxCreationSize;
 
                     UpdateCreationLineRendererColor();
                 }

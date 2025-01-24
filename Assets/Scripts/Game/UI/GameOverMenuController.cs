@@ -24,14 +24,12 @@ namespace GGJ25.Game.UI
 
         public void TryAgain()
         {
-            print("try again!");
-            //SceneManager.LoadScene();
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
         }
 
         public void MainMenu()
         {
-            print("main menu");
-            //SceneManager.LoadScene();
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
         }
 
         private void OnDestroy()

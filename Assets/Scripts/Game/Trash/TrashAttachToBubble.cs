@@ -30,6 +30,7 @@ namespace GGJ25.Game.Trash
 
             if (attachedTime != 0 && attachedBubble == null)
             {
+                GameManager.Singleton.AddScore();
                 Destroy(gameObject);
             }
         }

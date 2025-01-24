@@ -5,11 +5,13 @@ namespace GGJ25.Game
 {
     public class GameManager : MonoBehaviour
     {
+        public static UnityAction<int> OnScoreChanged;
         public static UnityAction<bool> OnGameRunningChanged;
         public static UnityAction<int> OnLivesChanged;
 
         public static GameManager Singleton { get; private set; }
 
+        public int score { get; private set; } = 0;
         public bool isGameRunning { get; private set; } = true;
         public int lives { get; private set; } = 3;
 
@@ -18,10 +20,10 @@ namespace GGJ25.Game
             Singleton = this;
         }
 
-        private void TriggerGameOver()
+        public void ChangeIsGameRunning(bool newIsGameRunning)
         {
-            isGameRunning = false;
-            OnGameRunningChanged?.Invoke(false);
+            isGameRunning = newIsGameRunning;
+            OnGameRunningChanged?.Invoke(newIsGameRunning);
         }
 
         public void RemoveLife()
@@ -30,10 +32,17 @@ namespace GGJ25.Game
 
             if(lives <= 0)
             {
-                TriggerGameOver();
+                ChangeIsGameRunning(false);
             }
 
             OnLivesChanged?.Invoke(lives);
+        }
+
+        public void AddScore()
+        {
+            score += 1;
+
+            OnScoreChanged?.Invoke(score);
         }
     }
 }
