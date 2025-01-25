@@ -5,9 +5,16 @@ namespace GGJ25.Game
 {
     public class BubbleController : MonoBehaviour
     {
+        private static List<BubbleController> Bubbles = new List<BubbleController>();
+
+        public static int GetBubblesCount()
+        {
+            return Bubbles.Count;
+        }
+
         [SerializeField]
         private PlayRandomAudio powerUpRandomAudio;
-        
+
         private new Rigidbody2D rigidbody;
 
         private List<GameObject> trashObjects = new List<GameObject>();
@@ -16,6 +23,11 @@ namespace GGJ25.Game
         {
             rigidbody = GetComponent<Rigidbody2D>();
             rigidbody.linearVelocity = new Vector3(0, speed);
+        }
+
+        private void Awake()
+        {
+            Bubbles.Add(this);
         }
 
         private void Update()
@@ -27,7 +39,9 @@ namespace GGJ25.Game
                     Destroy(trash);
                 }
 
-                if(trashObjects.Count == 1)
+                GameManager.Singleton.AddBubble(trashObjects.Count);
+
+                if (trashObjects.Count == 1)
                 {
                     GameManager.Singleton.AddScore(trashObjects.Count);
                 }
@@ -48,6 +62,16 @@ namespace GGJ25.Game
         public void PlayRandomPowerUpAudio()
         {
             powerUpRandomAudio.Play();
+        }
+
+        private void OnDestroy()
+        {
+            Bubbles.Remove(this);
+
+            if(GameManager.Singleton.bubblesAvailable == 0)
+            {
+                GameManager.Singleton.SetGameLost();
+            }
         }
     }
 }

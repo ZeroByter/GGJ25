@@ -23,6 +23,8 @@ namespace GGJ25.Game.Trash
         private float minInterval = 0.4f;
         [SerializeField]
         private float initialInterval = 3;
+        [SerializeField]
+        private float bubblesProgress = 0.39f;
 
         [Range(0f, 1f)]
         [SerializeField]
@@ -63,7 +65,7 @@ namespace GGJ25.Game.Trash
         private void HandleScoreChanged(int newScore)
         {
             //spawnInterval = Mathf.Lerp(initialSpawnInterval, fastestSpawnInterval, (float)newScore / maxScoreForIntervalAdjustment);
-            spawnInterval = Mathf.Max(minInterval, 1 + initialInterval - Mathf.Pow((newScore + 1), 0.245f));
+            spawnInterval = Mathf.Max(minInterval, 1 + initialInterval - Mathf.Pow((newScore + 1), bubblesProgress));
         }
 
         private Vector3 GetSpawnPosition()

@@ -1001,10 +1001,13 @@ MonoBehaviour:
     1. Draw circular bubbles at the bottom of the screen
     to catch floating trash and clean the ocean!
 
-    2. Don''t let the trash float
-    away, you''ll lose a life!
+    2. You have limited bubbles,
+    don''t waste them!
 
-    3. Collect powers up to help you in your quest!'
+    3. Don''t let the trash float away, you''ll lose a life!
+
+    4.
+    Collect powers up to help you in your quest!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 07c5b7f76169f3c4eb1786ad8963bf35, type: 2}
   m_sharedMaterial: {fileID: -791724304940310070, guid: 07c5b7f76169f3c4eb1786ad8963bf35, type: 2}
@@ -1443,8 +1446,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.00007915698, y: 234.1655}
-  m_SizeDelta: {x: 956.804, y: 247.669}
+  m_AnchoredPosition: {x: 0.00007915698, y: 200.54}
+  m_SizeDelta: {x: 956.804, y: 281.294}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1982977817
 MonoBehaviour:

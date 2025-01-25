@@ -9,12 +9,20 @@ namespace GGJ25.Game
         public static UnityAction<bool> OnGameRunningChanged;
         public static UnityAction<int> OnLivesChanged;
         public static UnityAction OnTrashFailureChanged;
+        public static UnityAction<int> OnAvailableBubblesChanged;
 
         public static GameManager Singleton { get; private set; }
+
+        [SerializeField]
+        private int bubblesPerTrash = 2;
+
+        public int maxBubbles = 20;
+        public int bubblesAvailable = 7;
 
         public int score { get; private set; } = 0;
         public bool isGameRunning { get; private set; } = true;
         public int lives { get; private set; } = 3;
+        public bool isGameLost { get; private set; } = false;
 
         private void Awake()
         {
@@ -27,13 +35,19 @@ namespace GGJ25.Game
             OnGameRunningChanged?.Invoke(newIsGameRunning);
         }
 
+        public void SetGameLost()
+        {
+            isGameLost = true;
+            ChangeIsGameRunning(false);
+        }
+
         public void RemoveLife()
         {
             lives -= 1;
 
             if (lives <= 0)
             {
-                ChangeIsGameRunning(false);
+                SetGameLost();
             }
 
             OnLivesChanged?.Invoke(lives);
@@ -53,6 +67,31 @@ namespace GGJ25.Game
             score += scoreToAdd;
 
             OnScoreChanged?.Invoke(score);
+        }
+
+        public void AddBubble(int addCount)
+        {
+            var oldCount = bubblesAvailable;
+
+            bubblesAvailable = Mathf.Min(maxBubbles, bubblesAvailable + addCount * bubblesPerTrash);
+
+            if(bubblesAvailable != oldCount)
+            {
+                OnAvailableBubblesChanged?.Invoke(bubblesAvailable);
+
+            }
+        }
+
+        public void RemoveBubble()
+        {
+            bubblesAvailable = Mathf.Max(0, bubblesAvailable - 1);
+
+            if (bubblesAvailable == 0 && BubbleController.GetBubblesCount() == 0)
+            {
+                SetGameLost();
+            }
+
+            OnAvailableBubblesChanged?.Invoke(bubblesAvailable);
         }
     }
 }

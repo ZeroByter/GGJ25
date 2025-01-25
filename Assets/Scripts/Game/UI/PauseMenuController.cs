@@ -45,7 +45,7 @@ namespace GGJ25.Game.UI
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && GameManager.Singleton.lives > 0)
+            if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.Singleton.isGameLost)
             {
                 SetIsOpen(!isOpen);
             }

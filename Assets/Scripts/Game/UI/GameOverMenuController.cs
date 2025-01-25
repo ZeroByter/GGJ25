@@ -24,7 +24,7 @@ namespace GGJ25.Game.UI
 
         private void HandleGameRunningChanged(bool gameRunning)
         {
-            if(GameManager.Singleton.lives <= 0)
+            if(GameManager.Singleton.isGameLost)
             {
                 lerpCanvasGroup.SetAlpha(1f);
             }

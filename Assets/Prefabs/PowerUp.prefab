@@ -248,7 +248,7 @@ MonoBehaviour:
     type: 0
     weight: 1
   - name: Bomb
-    sprite: {fileID: -2613247888821195678, guid: 21c56cf97e7191047b1ee3e908c1da04, type: 3}
+    sprite: {fileID: 4030396004094610547, guid: 3cb99bf1ca078ef4d91688ac14f9eb1c, type: 3}
     type: 1
     weight: 1
   - name: Life

@@ -216,7 +216,7 @@ namespace GGJ25.Game
         {
             if (isDrawing)
             {
-                if (isCreationValid)
+                if (isCreationValid && GameManager.Singleton.bubblesAvailable > 0)
                 {
                     var newBubble = Instantiate(bubblePrefab, GetCenterPosition(), Quaternion.identity);
 
@@ -259,6 +259,8 @@ namespace GGJ25.Game
 
                     bubbleCreationAudioSource.clip = onBubbleCreatedAudio[Random.Range(0, onBubbleCreatedAudio.Length)];
                     bubbleCreationAudioSource.Play();
+
+                    GameManager.Singleton.RemoveBubble();
                 }
 
                 ResetBubblePositions();
@@ -268,7 +270,7 @@ namespace GGJ25.Game
 
         private void OnMouseDown()
         {
-            isDrawing = GameManager.Singleton.isGameRunning;
+            isDrawing = GameManager.Singleton.isGameRunning && GameManager.Singleton.bubblesAvailable > 0;
         }
 
         private void OnMouseDrag()
@@ -317,6 +319,20 @@ namespace GGJ25.Game
         {
             ResetBubblePositions();
             isDrawing = false;
+        }
+
+        private void HandleAvailableBubblesChanged(int newCount)
+        {
+            if (newCount == 0)
+            {
+                ResetBubblePositions();
+                isDrawing = false;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.OnAvailableBubblesChanged -= HandleAvailableBubblesChanged;
         }
     }
 }
