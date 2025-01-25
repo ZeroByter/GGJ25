@@ -16,6 +16,9 @@ namespace GGJ25.Game
         [SerializeField]
         private int bubblesPerTrash = 2;
 
+        [SerializeField]
+        private int maxLives = 5;
+
         public int maxBubbles = 20;
         public int bubblesAvailable = 7;
 
@@ -57,7 +60,7 @@ namespace GGJ25.Game
 
         public void GiveLife()
         {
-            lives += 1;
+            lives = Mathf.Min(maxLives, lives + 1);
 
             OnLivesChanged?.Invoke(lives);
         }

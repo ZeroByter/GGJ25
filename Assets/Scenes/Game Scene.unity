@@ -3734,7 +3734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubblesPerTrash: 1
-  maxBubbles: 15
+  maxBubbles: 10
   bubblesAvailable: 7
 --- !u!4 &1929179035
 Transform:
