@@ -6,11 +6,13 @@ namespace GGJ25.Game.Trash
 {
     public class TrashAttachToBubble : MonoBehaviour
     {
+        [SerializeField]
+        private PlayRandomAudio playRandomAudio;
+
         private new Rigidbody2D rigidbody;
         private SpriteRenderer spriteRenderer;
 
         private BubbleController attachedBubble;
-
         private float attachedTime;
 
         private void Awake()
@@ -27,12 +29,6 @@ namespace GGJ25.Game.Trash
 
                 rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, attachedBubble.transform.position, Mathf.Lerp(10, 100, timeSinceAttached) * Time.deltaTime));
             }
-
-            if (attachedTime != 0 && attachedBubble == null)
-            {
-                GameManager.Singleton.AddScore();
-                Destroy(gameObject);
-            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -44,6 +40,10 @@ namespace GGJ25.Game.Trash
 
                 if (spriteRenderer.sprite.bounds.size.magnitude < otherBubbleMeshFilter.mesh.bounds.size.magnitude)
                 {
+                    otherBubble.AddCaughtTrash(gameObject);
+
+                    playRandomAudio.Play();
+
                     attachedBubble = otherBubble;
                     rigidbody.linearVelocity = Vector3.zero;
                     attachedTime = Time.time;

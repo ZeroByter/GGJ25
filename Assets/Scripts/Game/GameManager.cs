@@ -48,9 +48,9 @@ namespace GGJ25.Game
             OnLivesChanged?.Invoke(lives);
         }
 
-        public void AddScore()
+        public void AddScore(int scoreToAdd)
         {
-            score += 1;
+            score += scoreToAdd;
 
             OnScoreChanged?.Invoke(score);
         }

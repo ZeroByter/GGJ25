@@ -13,6 +13,9 @@ namespace GGJ25.MainMenu
         private AudioSource mainMenuMusic;
         [SerializeField]
         private float volumeLerpSpeed;
+        [Range(0f, 1f)]
+        [SerializeField]
+        private float maxVolume;
 
         private int lastSceneIndex;
 
@@ -39,7 +42,7 @@ namespace GGJ25.MainMenu
             }
             else
             {
-                gameMusic.volume = Mathf.Lerp(gameMusic.volume, 1f, volumeLerpSpeed * Time.unscaledDeltaTime);
+                gameMusic.volume = Mathf.Lerp(gameMusic.volume, maxVolume, volumeLerpSpeed * Time.unscaledDeltaTime);
             }
         }
 

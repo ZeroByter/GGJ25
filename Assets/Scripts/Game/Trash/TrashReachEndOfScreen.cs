@@ -4,6 +4,9 @@ namespace GGJ25.Game.Trash
 {
     public class TrashReachEndOfScreen : MonoBehaviour
     {
+        [SerializeField]
+        private PlayRandomAudio playRandomAudio;
+
         private Vector3 initialPosition;
 
         private float deleteX;
@@ -22,22 +25,29 @@ namespace GGJ25.Game.Trash
             }
         }
 
+        private void ReachedEndOfScreen()
+        {
+            playRandomAudio.transform.parent = null;
+            playRandomAudio.Play();
+
+            Destroy(gameObject);
+            GameManager.Singleton.RemoveLife();
+        }
+
         private void Update()
         {
             if (initialPosition.x > 0)
             {
                 if (transform.position.x < deleteX)
                 {
-                    Destroy(gameObject);
-                    GameManager.Singleton.RemoveLife();
+                    ReachedEndOfScreen();
                 }
             }
             else
             {
                 if (transform.position.x > deleteX)
                 {
-                    Destroy(gameObject);
-                    GameManager.Singleton.RemoveLife();
+                    ReachedEndOfScreen();
                 }
             }
         }

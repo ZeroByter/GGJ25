@@ -24,7 +24,7 @@ namespace GGJ25.Game.Trash
             if (particleSystem)
             {
                 var particleSystemShape = particleSystem.shape;
-                particleSystemShape.texture = chosenSprite.texture;
+                particleSystemShape.scale = new Vector3(chosenSprite.bounds.size.x, chosenSprite.bounds.size.y, 1);
             }
 
             var newCollider = gameObject.AddComponent<PolygonCollider2D>();

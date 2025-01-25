@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using GGJ25.Game.Trash;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -69,6 +68,8 @@ namespace GGJ25.Game
             var bubbleRigidbody = bubble.GetComponent<Rigidbody2D>();
             var bubbleCollider = bubble.GetComponent<PolygonCollider2D>();
 
+            bubble.PlayRandomPowerUpAudio();
+
             if (powerUp.type == PowerUpTypes.Multiplier)
             {
                 for (int i = 0; i < 5; i++)
@@ -81,6 +82,7 @@ namespace GGJ25.Game
             }
             else if (powerUp.type == PowerUpTypes.Bomb)
             {
+                GameManager.Singleton.AddScore(TrashController.TrashControllers.Count);
                 foreach (var trash in TrashController.TrashControllers)
                 {
                     Destroy(trash.gameObject);
