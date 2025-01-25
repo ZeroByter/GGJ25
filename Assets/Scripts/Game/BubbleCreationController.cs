@@ -2,12 +2,15 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace GGJ25.Game
 {
     public class BubbleCreationController : MonoBehaviour
     {
+        public static UnityAction BubbleCreated;
+
         [SerializeField]
         private float minCreationDistance = 0.5f;
         [SerializeField]
@@ -259,6 +262,8 @@ namespace GGJ25.Game
 
                     bubbleCreationAudioSource.clip = onBubbleCreatedAudio[Random.Range(0, onBubbleCreatedAudio.Length)];
                     bubbleCreationAudioSource.Play();
+
+                    BubbleCreated?.Invoke();
 
                     GameManager.Singleton.RemoveBubble();
                 }
