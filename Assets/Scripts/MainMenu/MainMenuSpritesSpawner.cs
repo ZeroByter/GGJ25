@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GGJ25 {
+namespace GGJ25.MainMenu {
     public class MainMenuSpritesSpawner : MonoBehaviour
     {
         [SerializeField]
@@ -22,7 +22,7 @@ namespace GGJ25 {
                 lastSpawnedSprite = Time.time;
                 spawnedSprites++;
 
-                Instantiate(
+                var newTrash = Instantiate(
                     prefab,
                     new Vector3(
                         spawnBounds.center.x + Random.Range(
@@ -37,7 +37,18 @@ namespace GGJ25 {
                     ),
                     Quaternion.Euler(0, 0, Random.Range(0, 360f))
                 );
+                newTrash.AddComponent<DestroyDiscardedTrash>();
             }
+        }
+
+        public void StopSpawningSprites()
+        {
+            spawnedSprites = spritesToSpawn;
+        }
+
+        public void ResetSpawnedSprites()
+        {
+            spawnedSprites = 0;
         }
 
         private void OnDrawGizmosSelected()

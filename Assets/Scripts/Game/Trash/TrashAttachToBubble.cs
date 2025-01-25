@@ -25,6 +25,8 @@ namespace GGJ25.Game.Trash
         {
             if (attachedBubble != null)
             {
+                // TODO: Possible optimization: instead of getting 'attachedBubble.transform.position' every frame, calculate it once attached to bubble and just use the reference...
+
                 var timeSinceAttached = Mathf.InverseLerp(attachedTime, attachedTime + 3, Time.time);
 
                 rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, attachedBubble.transform.position, Mathf.Lerp(10, 100, timeSinceAttached) * Time.deltaTime));
