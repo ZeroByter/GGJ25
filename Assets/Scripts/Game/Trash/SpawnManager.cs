@@ -19,6 +19,11 @@ namespace GGJ25.Game.Trash
         [SerializeField]
         private int maxScoreForIntervalAdjustment = 20;
 
+        [SerializeField]
+        private float minInterval = 0.4f;
+        [SerializeField]
+        private float initialInterval = 3;
+
         [Range(0f, 1f)]
         [SerializeField]
         private float minYScreen = 0f;
@@ -57,7 +62,8 @@ namespace GGJ25.Game.Trash
 
         private void HandleScoreChanged(int newScore)
         {
-            spawnInterval = Mathf.Lerp(initialSpawnInterval, fastestSpawnInterval, (float)newScore / maxScoreForIntervalAdjustment);
+            //spawnInterval = Mathf.Lerp(initialSpawnInterval, fastestSpawnInterval, (float)newScore / maxScoreForIntervalAdjustment);
+            spawnInterval = Mathf.Max(minInterval, 1 + initialInterval - Mathf.Pow((newScore + 1), 0.245f));
         }
 
         private Vector3 GetSpawnPosition()
