@@ -16,7 +16,16 @@ namespace GGJ25.Game.UI
 
         private void HandleScoreChanged(int newScore)
         {
-            scoreText.text = $"Score: {newScore}";
+            var highScore = PlayerPrefs.GetInt("HighScore");
+
+            if(highScore > 0)
+            {
+                scoreText.text = $"Score: {newScore} <color=yellow>({highScore})</color>";
+            }
+            else
+            {
+                scoreText.text = $"Score: {newScore}";
+            }
         }
 
         private void OnDestroy()

@@ -11,6 +11,8 @@ namespace GGJ25.Game.UI
         private SceneField mainMenuScene;
         [SerializeField]
         private TMP_Text scoreText;
+        [SerializeField]
+        private TMP_Text highScoreText;
 
         private LerpCanvasGroup lerpCanvasGroup;
 
@@ -27,6 +29,10 @@ namespace GGJ25.Game.UI
             if(GameManager.Singleton.isGameLost)
             {
                 lerpCanvasGroup.SetAlpha(1f);
+
+                var highScore = PlayerPrefs.GetInt("HighScore");
+                highScoreText.gameObject.SetActive(highScore > 0);
+                highScoreText.text = $"High score: {highScore}";
             }
         }
 
