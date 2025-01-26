@@ -29,6 +29,12 @@ namespace GGJ25.Game
 
         private void Awake()
         {
+            if(PlayerPrefs.GetInt("CreatedBubbles", 0) > 0)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
             lineRenderer = GetComponent<LineRenderer>();
 
             BubbleCreationController.BubbleCreated += HandleBubbleCreated;

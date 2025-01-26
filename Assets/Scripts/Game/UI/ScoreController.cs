@@ -12,6 +12,8 @@ namespace GGJ25.Game.UI
             scoreText = GetComponent<TMP_Text>();
 
             GameManager.OnScoreChanged += HandleScoreChanged;
+
+            HandleScoreChanged(0);
         }
 
         private void HandleScoreChanged(int newScore)

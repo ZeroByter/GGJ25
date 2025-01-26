@@ -266,6 +266,8 @@ namespace GGJ25.Game
                     BubbleCreated?.Invoke();
 
                     GameManager.Singleton.RemoveBubble();
+
+                    PlayerPrefs.SetInt("CreatedBubbles", PlayerPrefs.GetInt("CreatedBubbles", 0) + 1);
                 }
 
                 ResetBubblePositions();

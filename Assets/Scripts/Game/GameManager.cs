@@ -38,18 +38,23 @@ namespace GGJ25.Game
             OnGameRunningChanged?.Invoke(newIsGameRunning);
         }
 
+        private void StoreHighScore()
+        {
+            var currentHighScore = PlayerPrefs.GetInt("HighScore", 0);
+
+            if (score > currentHighScore)
+            {
+                PlayerPrefs.SetInt("HighScore", score);
+                PlayerPrefs.Save();
+            }
+        }
+
         public void SetGameLost()
         {
             isGameLost = true;
             ChangeIsGameRunning(false);
 
-            var currentHighScore = PlayerPrefs.GetInt("HighScore", 0);
-
-            if(score > currentHighScore)
-            {
-                PlayerPrefs.SetInt("HighScore", currentHighScore);
-                PlayerPrefs.Save();
-            }
+            StoreHighScore();
         }
 
         public void RemoveLife()
