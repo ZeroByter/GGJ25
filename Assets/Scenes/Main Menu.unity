@@ -648,7 +648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1210477342
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1074,8 +1074,8 @@ MonoBehaviour:
     _buildIndex: 1
   spritesSpawner: {fileID: 19425952}
   floorCollider: {fileID: 1956677761}
-  mainMenuContainer: {fileID: 0}
-  howToPlayContainer: {fileID: 0}
+  mainMenuContainer: {fileID: 835906441}
+  howToPlayContainer: {fileID: 1210477341}
 --- !u!4 &1743946570
 Transform:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4549745855430175292}
   - component: {fileID: 2229820034176769352}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bottom Glare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 5745308594799581698}
   - component: {fileID: -2500291227855545208}
   - component: {fileID: 912988244864943731}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 2363779570738366671}
   - component: {fileID: 390209043580509587}
   - component: {fileID: 8218237637915793082}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Power Up Activate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5032297227466186567}
   - component: {fileID: 2762861142966417309}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Top Glare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -758,7 +758,7 @@ GameObject:
   m_Component:
   - component: {fileID: 633214581146757373}
   - component: {fileID: 2358349957470543680}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Glare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

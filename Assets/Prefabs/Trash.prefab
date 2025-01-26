@@ -5146,7 +5146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frozenSpeedLerp: 10
-  rotateSpeed: 40
+  rotateSpeed: 80
 --- !u!1 &8770194113224336133
 GameObject:
   m_ObjectHideFlags: 0

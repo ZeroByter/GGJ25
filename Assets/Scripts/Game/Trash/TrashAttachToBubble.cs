@@ -11,8 +11,10 @@ namespace GGJ25.Game.Trash
 
         private new Rigidbody2D rigidbody;
         private SpriteRenderer spriteRenderer;
+        private PolygonCollider2D polygonCollider;
 
         private BubbleController attachedBubble;
+        private Rigidbody2D attachedBubbleRigidbody;
         private float attachedTime;
 
         private void Awake()
@@ -25,30 +27,36 @@ namespace GGJ25.Game.Trash
         {
             if (attachedBubble != null)
             {
-                // TODO: Possible optimization: instead of getting 'attachedBubble.transform.position' every frame, calculate it once attached to bubble and just use the reference...
+                var timeSinceAttached = Mathf.InverseLerp(attachedTime, attachedTime + 1.5f, Time.time);
 
-                var timeSinceAttached = Mathf.InverseLerp(attachedTime, attachedTime + 3, Time.time);
-
-                rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, attachedBubble.transform.position, Mathf.Lerp(10, 100, timeSinceAttached) * Time.deltaTime));
+                rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, attachedBubbleRigidbody.position, Mathf.Lerp(10, 200, timeSinceAttached) * Time.deltaTime));
             }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            var otherBubble = collision.gameObject.GetComponent<BubbleController>();
-            if (otherBubble != null && attachedBubble == null)
+            if(attachedBubble == null && collision.gameObject.layer == LayerMask.NameToLayer("Bubble"))
             {
-                var otherBubbleMeshFilter = otherBubble.GetComponent<MeshFilter>();
-
-                if (spriteRenderer.sprite.bounds.size.magnitude < otherBubbleMeshFilter.mesh.bounds.size.magnitude)
+                var otherBubble = collision.gameObject.GetComponent<BubbleController>();
+                if (otherBubble != null)
                 {
-                    otherBubble.AddCaughtTrash(gameObject);
+                    var otherBubbleMeshFilter = otherBubble.GetComponent<MeshFilter>();
 
-                    playRandomAudio.Play();
+                    if (spriteRenderer.sprite.bounds.size.magnitude < otherBubbleMeshFilter.mesh.bounds.size.magnitude)
+                    {
+                        otherBubble.AddCaughtTrash(gameObject);
 
-                    attachedBubble = otherBubble;
-                    rigidbody.linearVelocity = Vector3.zero;
-                    attachedTime = Time.time;
+                        polygonCollider = GetComponent<PolygonCollider2D>();
+                        polygonCollider.enabled = false;
+
+                        playRandomAudio.Play();
+
+                        attachedBubble = otherBubble;
+                        attachedBubbleRigidbody = otherBubble.GetComponent<Rigidbody2D>();
+
+                        rigidbody.linearVelocity = Vector3.zero;
+                        attachedTime = Time.time;
+                    }
                 }
             }
         }

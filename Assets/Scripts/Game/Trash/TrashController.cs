@@ -19,29 +19,26 @@ namespace GGJ25.Game.Trash
         private Vector2 targetVelocity;
         private Vector2 preFreezeVelocity;
 
-        //private float currentRotateSpeed;
-        //private float targetRotateSpeed;
+        private float currentRotateSpeed;
+        private float targetRotateSpeed;
 
-        private float timeCreated;
         private float freezeStartTime;
 
         private void Awake()
         {
-            timeCreated = Random.Range(0, 360f);
-
             rigidbody = GetComponent<Rigidbody2D>();
 
-            //currentRotateSpeed = rotateSpeed;
-            //targetRotateSpeed = rotateSpeed;
+            currentRotateSpeed = rotateSpeed;
+            targetRotateSpeed = rotateSpeed;
 
             TrashControllers.Add(this);
         }
 
         private void Update()
         {
-            //currentRotateSpeed = Mathf.Lerp(currentRotateSpeed, targetRotateSpeed, frozenSpeedLerp * Time.unscaledDeltaTime);
+            currentRotateSpeed = Mathf.Lerp(currentRotateSpeed, targetRotateSpeed, frozenSpeedLerp * Time.unscaledDeltaTime);
 
-            //transform.eulerAngles = new Vector3(0, 0, timeCreated + Time.time * currentRotateSpeed);
+            transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + currentRotateSpeed * Time.deltaTime);
 
             if (freezeStartTime > 0)
             {
@@ -54,7 +51,7 @@ namespace GGJ25.Game.Trash
             yield return new WaitForSeconds(5);
 
             targetVelocity = preFreezeVelocity;
-            //targetRotateSpeed = rotateSpeed;
+            targetRotateSpeed = rotateSpeed;
         }
 
         public void InitiateFreeze()
@@ -67,7 +64,7 @@ namespace GGJ25.Game.Trash
             freezeStartTime = Time.time;
             preFreezeVelocity = rigidbody.linearVelocity;
             targetVelocity = preFreezeVelocity * 0.2f;
-            //targetRotateSpeed = rotateSpeed * 0.2f;
+            targetRotateSpeed = rotateSpeed * 0.2f;
             StartCoroutine(InitiateFreezeCoroutine());
         }
 
