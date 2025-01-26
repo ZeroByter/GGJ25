@@ -29,7 +29,7 @@ namespace GGJ25.Game.Trash
             {
                 var timeSinceAttached = Mathf.InverseLerp(attachedTime, attachedTime + 1.5f, Time.time);
 
-                rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, attachedBubbleRigidbody.position, Mathf.Lerp(10, 200, timeSinceAttached) * Time.deltaTime));
+                rigidbody.MovePosition(Vector3.Lerp(rigidbody.position, attachedBubbleRigidbody.position, Mathf.Lerp(10, 100, timeSinceAttached) * Time.deltaTime));
             }
         }
 
